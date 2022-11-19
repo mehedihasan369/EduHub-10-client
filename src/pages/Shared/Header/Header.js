@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 const Header = () => {
     return (
         <div>
-                  <Navbar collapseOnSelect className='mb-4' expand="lg" bg="light" variant="light">
+                  <Navbar collapseOnSelect className='' expand="lg" bg="info" variant="light">
             <Container>
             <Link to='/' className='fw-bold text-decoration-none text-dark fs-3'>SETSKILL</Link>
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />

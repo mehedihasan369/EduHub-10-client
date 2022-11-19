@@ -1,5 +1,4 @@
 import React from 'react';
-import {Button, Col,Row} from 'react-bootstrap';
 import { Outlet } from 'react-router-dom';
 import Footer from '../pages/Shared/Footer';
 import Header from '../pages/Shared/Header/Header';
