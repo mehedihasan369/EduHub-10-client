@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Image } from 'react-bootstrap';
+import { Button, Image } from 'react-bootstrap';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
@@ -9,7 +9,14 @@ import { AuthContext } from '../../../contexts/AuthProvider';
 
 
 const Header = () => {
-    const {user} = useContext(AuthContext);
+    const { user, logOut } = useContext(AuthContext);
+
+    const handleLogOut = () => {
+        logOut()
+            .then(() => { })
+            .catch(error => console.error(error))
+    }
+
     return (
         <div>
                   <Navbar collapseOnSelect className='' expand="lg" bg="info" variant="light">
@@ -26,7 +33,22 @@ const Header = () => {
 
             </Nav>
                <Nav>
-                <Link>{user?.displayName}</Link>
+               <Link >
+                            {
+                                user?.uid ?
+                                    <>
+                                        <Button variant="info" className='ms-3 text-decoration-none fs-6 text-dark fw-semibold'>{user?.displayName}</Button>
+                                        <Button variant="info" className='ms-3 text-decoration-none fs-6 text-dark fw-semibold' onClick={handleLogOut}>Log out</Button>
+                                    </>
+                                    :
+                                    <>
+                <Link to='/login' className='ms-3 text-decoration-none fs-6 text-dark fw-semibold'>Login</Link>
+               <Link to='/signup' className='ms-3 text-decoration-none fs-6 text-dark fw-semibold'>SignUp</Link>
+                                    </>
+                            }
+
+
+                        </Link>
                 <Link eventKey={2} >
                             {user?.photoURL ?
                                 <Image
@@ -37,8 +59,7 @@ const Header = () => {
                                 : <FaUser></FaUser>
                             }
                         </Link>
-               <Link to='/login' className='ms-3 text-decoration-none fs-6 text-dark fw-semibold'>Login</Link>
-               <Link to='/signup' className='ms-3 text-decoration-none fs-6 text-dark fw-semibold'>SignUp</Link>
+
                </Nav>
                <div className='d-lg-none'>
                </div>
