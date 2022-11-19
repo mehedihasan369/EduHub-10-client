@@ -1,12 +1,16 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { Link } from 'react-router-dom';
 import { FaGoogle } from "react-icons/fa";
 import { AuthContext } from '../../contexts/AuthProvider';
+import toast from 'react-hot-toast';
 
 const SignUp = () => {
-  const {createUser} = useContext(AuthContext);
+  const { createUser, updateUserProfile, verifyEmail } = useContext(AuthContext);
+  const [accepted, setAccepted] = useState(false);
+  const [error, setError] = useState(false);
+  
 
   const handleSubmit = event => {
     event.preventDefault();
@@ -15,16 +19,44 @@ const SignUp = () => {
     const photoURL = form.photoURL.value;
     const email = form.email.value;
     const password = form.password.value;
-    console.log(name, photoURL, email, password);
+    // console.log(name, photoURL, email, password);
 
     createUser(email, password)
-    .then( result => {
-        const user = result.user;
-        console.log(user);
-        form.reset();
-    })
-    .catch( e => console.error(e));
+        .then(result => {
+            const user = result.user;
+            console.log(user);
+            setError('');
+            form.reset();
+            handleUpdateUserProfile(name, photoURL);
+            handleEmailVerification();
+            toast.success('Please verify your email address.')
+        })
+        .catch(e => {
+            console.error(e);
+            setError(e.message);
+        });
 }
+const handleUpdateUserProfile = (name, photoURL) => {
+  const profile = {
+      displayName: name,
+      photoURL: photoURL
+  }
+
+  updateUserProfile(profile)
+      .then(() => { })
+      .catch(error => console.error(error));
+}
+
+const handleEmailVerification  = () => {
+  verifyEmail()
+  .then(() =>{})
+  .catch(error => console.error(error));
+}
+
+const handleAccepted = event => {
+  setAccepted(event.target.checked)
+}
+
     return (
         <div className='d-lg-flex  '>
            <img src="./Mobile login-pana.png" alt="" className='w-50 h-50 m-5 ps-5'/>
@@ -49,12 +81,17 @@ const SignUp = () => {
                 <Form.Label>Password</Form.Label>
                 <Form.Control name="password" type="password" placeholder="Password" required />
             </Form.Group>
-
-            <Button variant="primary" type="submit">
+            <Form.Group className="mb-3" controlId="formBasicCheckbox">
+                <Form.Check
+                    type="checkbox"
+                    onClick={handleAccepted}
+                    label={<>Accept <Link to="/terms">Terms and conditions</Link></>} />
+            </Form.Group>
+            <Button variant="primary" type="submit" disabled={!accepted}>
                 Register
             </Button>
             <Form.Text className="text-danger">
-
+                {error}
             </Form.Text>
         </Form>
 

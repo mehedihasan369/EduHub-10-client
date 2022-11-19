@@ -8,7 +8,10 @@ import Courses from "../pages/Courses/Courses";
 import FAQ from "../pages/FAQ/FAQ";
 import Home from "../pages/Home/Home";
 import LogIn from "../pages/login/LogIn";
+import PremiumCourse from "../pages/premiumCourse/PremiumCourse";
 import SignUp from "../pages/SignUp/SignUp";
+import TermsAndConditions from "../pages/TermsAndConditons";
+import PrivateRoute from "./PrivateRouts/PrivateRoute";
 
 export const routes = createBrowserRouter([
     {
@@ -33,6 +36,11 @@ export const routes = createBrowserRouter([
                   },
                 element : <Courses></Courses>
             },
+            {
+                path : '/premiumCourse/:id',
+               
+                element : <PrivateRoute><PremiumCourse></PremiumCourse></PrivateRoute>
+            },
             
             {
                 path : '/blogs',
@@ -49,6 +57,10 @@ export const routes = createBrowserRouter([
             {
                 path : '/signup',
                 element : <SignUp></SignUp>
+            },
+            {
+                path : '/terms',
+                element : <TermsAndConditions></TermsAndConditions>
             }
         ]
     },
