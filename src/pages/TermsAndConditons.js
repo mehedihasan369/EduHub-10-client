@@ -5,7 +5,7 @@ const TermsAndConditions = () => {
     return (
         <div>
             <h3>Here is our Terms and conditions</h3>
-            <p>Go back to: <Link to='/register'>Register</Link></p>
+            <p>Go back to: <Link to='/signup'>Signup</Link></p>
         </div>
     );
 };

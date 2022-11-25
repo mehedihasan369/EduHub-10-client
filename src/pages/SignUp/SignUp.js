@@ -2,7 +2,6 @@ import React, { useContext, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { Link } from 'react-router-dom';
-import { FaGoogle } from "react-icons/fa";
 import { AuthContext } from '../../contexts/AuthProvider';
 import toast from 'react-hot-toast';
 
@@ -101,7 +100,7 @@ const handleAccepted = event => {
      
 
 
-    <h5>or <Button  className='m-2' variant="outline-primary"> <FaGoogle></FaGoogle> Login with Google</Button></h5>
+   
 
             </div>
         </div>

@@ -2,25 +2,19 @@ import React, { useContext, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { FaGoogle } from "react-icons/fa";
+import { FaGithub, FaGoogle } from "react-icons/fa";
 import { AuthContext } from '../../contexts/AuthProvider';
-import { GoogleAuthProvider } from 'firebase/auth';
+import { GithubAuthProvider, GoogleAuthProvider } from 'firebase/auth';
 import toast from 'react-hot-toast';
 
 
 
 const LogIn = () => {
   const { providerLogin } = useContext(AuthContext);
-  const googleProvider = new GoogleAuthProvider()
+  const googleProvider = new GoogleAuthProvider();
+  const githubProvider = new GithubAuthProvider();
 
-  const handleGoogleSignIn = () => {
-    providerLogin(googleProvider)
-        .then(result => {
-            const user = result.user;
-            console.log(user);
-        })
-        .catch(error => console.error(error))
-      }
+ 
 
       const [error, setError] = useState('');
       const { signIn, setLoading } = useContext(AuthContext);
@@ -28,6 +22,33 @@ const LogIn = () => {
       const location = useLocation();
   
       const from = location.state?.from?.pathname || '/';
+
+
+      const handleGoogleSignIn = () => {
+        providerLogin(googleProvider)
+            .then(result => {
+                const user = result.user;
+                console.log(user);
+                if(user.emailVerified){
+                    navigate(from, {replace: true});
+                }
+            })
+            .catch(error => console.error(error))
+          }
+
+
+          const handleGithubSignIn = () => {
+            providerLogin(githubProvider)
+            .then((result) => {
+                // This gives you a GitHub Access Token. You can use it to access the GitHub API.
+                const credential = githubProvider.credentialFromResult(result);
+                const token = credential.accessToken;
+                
+                const user = token.user;
+                console.log(user);
+
+              }).catch(error => console.error(error))
+            }
   
       const handleSubmit = event => {
           event.preventDefault();
@@ -81,7 +102,8 @@ const LogIn = () => {
                 {error}
             </Form.Text>
         </Form>
-    <h5>or <Button onClick={handleGoogleSignIn} className='m-2' variant="outline-primary" > <FaGoogle></FaGoogle> Login with Google</Button></h5>
+    <h5>or <Button onClick={handleGoogleSignIn} className='m-2' variant="outline-primary" > <FaGoogle></FaGoogle> Continue with Google</Button></h5>
+    <h5>or <Button onClick={handleGithubSignIn} className='m-2' variant="outline-dark" > <FaGithub></FaGithub> Continue with Github</Button></h5>
              </div>
         
         </div>

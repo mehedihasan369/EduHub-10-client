@@ -3,7 +3,7 @@ import React from 'react';
 const Footer = () => {
     return (
         <div>
-            <p>Fency footer</p>
+            <p>Copyright © 2021,EduHub. All rights reserved.</p>
         </div>
     );
 };
